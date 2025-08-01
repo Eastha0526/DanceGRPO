@@ -16,7 +16,7 @@ DanceGRPO has the following features:
 - __[2025.05.12]__: 🔥 We released the paper in arXiv!
 - __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion!
 - __[2025.07.03]__: 🔥 We released the training scripts of HunyuanVideo!
-- __[2025.08.01]__: 🔥 We released a research note about the open questions on DanceGRPO!
+- __[2025.08.01]__: 🔥 We released a research note (in README) about the open questions on DanceGRPO!
 
 
 ## Getting Started
