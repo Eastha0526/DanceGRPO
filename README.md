@@ -16,7 +16,6 @@ DanceGRPO has the following features:
 - __[2025.05.12]__: 🔥 We released the paper in arXiv!
 - __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion!
 - __[2025.07.03]__: 🔥 We released the training scripts of HunyuanVideo!
-- __[2025.08.01]__: 🔥 We released a research note (in README) about the open research questions on DanceGRPO!
 
 
 ## Getting Started
@@ -97,15 +96,6 @@ The Multi-reward training code and reward curves can be found [here](https://git
 ### Important Discussion and Results with More Reward Models
 Thanks for the issue from [@Yi-Xuan XU](https://github.com/xuyxu), the results of more reward models and better visualization (how to avoid grid patterns) on FLUX can be found [here](https://github.com/XueZeyue/DanceGRPO/issues/36). We also support the pickscore for FLUX with `--use_pickscore`.
 
-### Open Questions on Research
-1. How can we speed up training while maintaining quality?
-2. Can rule-based rewards work for visual generation?
-3. What's the best reward model design for RL, CLIP, VLM, AI feedback or mix?
-4. How can we improve algorithms, such as following DAPO or GSPO?
-5. Downstream applications (medical, 3D, audio, editing, etc.).
-6. Should video reward models analyze every frame?
-7. How can we design a joint GRPO algorithm for LLM and diffusion/flow?
-8. How can we avoid reward hacking, other than model merging/mixing/EMA.
 
 ## Acknowledgement
 We learned and reused code from the following projects:
