@@ -97,6 +97,8 @@ The Multi-reward training code and reward curves can be found [here](https://git
 ### Important Discussion and Results with More Reward Models
 Thanks for the issue from [@Yi-Xuan XU](https://github.com/xuyxu), the results of more reward models and better visualization (how to avoid grid patterns) on FLUX can be found [here](https://github.com/XueZeyue/DanceGRPO/issues/36). We also support the pickscore for FLUX with `--use_pickscore`.
 
+We support the EMA for FLUX with `--ema_decay 0.995` and `--use_ema`. Enabling EMA helps with better visualization.
+
 
 ## Acknowledgement
 We learned and reused code from the following projects:
