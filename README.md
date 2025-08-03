@@ -17,6 +17,7 @@ DanceGRPO has the following features:
 - __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion!
 - __[2025.07.03]__: 🔥 We released the training scripts of HunyuanVideo!
 
+We have shared this work at many research labs, and the example slide can be found [here](https://github.com/XueZeyue/xuezeyue.github.io/blob/main/_talks/dancegrpo.pdf).
 
 ## Getting Started
 ### Downloading checkpoints
