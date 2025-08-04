@@ -114,7 +114,7 @@ How to debug:
 
 ## Training Acceleration
 1. You can reduce the sampling steps, resolution, or timestep selection ratio.
-2. Thanks for the outstanding follow-up work [MixGRPO](https://arxiv.org/abs/2507.21802), please refer to [here](https://github.com/Tencent-Hunyuan/MixGRPO), they also provide the evaluation codes.
+2. Thanks for the outstanding follow-up work [MixGRPO](https://arxiv.org/abs/2507.21802), please refer to [here](https://github.com/Tencent-Hunyuan/MixGRPO), they also add the evaluation codes.
 
 
 ## Acknowledgement
