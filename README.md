@@ -102,14 +102,14 @@ We support the EMA for FLUX with `--ema_decay 0.995` and `--use_ema`. Enabling E
 ## How to Support Custom Models
 1. For preprocessing, modify the `preprocess_flux_embedding.py` and `latent_flux_rl_datasets.py` based on your text encoder.
 2. For FSDP and dataloader, modify the `fsdp_util.py` and `communications_flux.py`, we prefer FSDP rather than DeepSpeed since FSDP is easier to debug.
-3. Modify the `train_grpo_flux.py`
+3. Modify the `train_grpo_flux.py`.
 
 How to debug:
 1. Print the probability ratio, reward, and advantage for each sample; the ratio should be **1.0** before the gradient update, and you can verify the advantage on your own.
-2. The gradient accumulation should follow the sample dimension, which means, suppose you use 20 steps, the gradient accumulation should be accumulate_samples*20
-3. Based on my experience, the learning rate should be set to between 5e-6 and 2e-5, setting the lr to 1e-6 always leads to training failure in my settings.
-4. Make sure the batchsize is enough, you can follow my setting of flux_8gpus.
-5. More importantly, if you enable cfg, the gradient accumulation should be set to a large number. Based on my experience, I always set it to be num_generations*20, which means you just update the gradient one time in each rollout.
+2. The gradient accumulation should follow the sample dimension, which means, suppose you use 20 steps, the gradient accumulation should be accumulate_samples*20.
+3. Based on our experience, the learning rate should be set to between 5e-6 and 2e-5, setting the lr to 1e-6 always leads to training failure in our settings.
+4. Make sure the batchsize is enough; you can follow our setting of flux_8gpus.
+5. More importantly, if you enable cfg, the gradient accumulation should be set to a large number. Based on our experience, we always set it to be num_generations*20, which means you just update the gradient one time in each rollout.
 
 
 ## Acknowledgement
