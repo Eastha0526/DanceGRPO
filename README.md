@@ -109,7 +109,12 @@ How to debug:
 2. The gradient accumulation should follow the sample dimension, which means, suppose you use 20 steps, the gradient accumulation should be accumulate_samples*20.
 3. Based on our experience, the learning rate should be set to between 5e-6 and 2e-5, setting the lr to 1e-6 always leads to training failure in our settings.
 4. Make sure the batchsize is enough; you can follow our setting of flux_8gpus.
-5. More importantly, if you enable cfg, the gradient accumulation should be set to a large number. Based on our experience, we always set it to be num_generations*20, which means you just update the gradient one time in each rollout.
+5. More importantly, if you enable cfg, the gradient accumulation should be set to a large number. Based on our experience, we always set it to be num_generations*20, which means you update the gradient only once in each rollout.
+
+
+## Training Acceleration
+1. You can reduce the sampling steps, resolution, or timestep selection ratio.
+2. Thanks for the outstanding follow-up work [MixGRPO](https://arxiv.org/abs/2507.21802), please refer to [here](https://github.com/Tencent-Hunyuan/MixGRPO), they also provide the evaluation codes.
 
 
 ## Acknowledgement
