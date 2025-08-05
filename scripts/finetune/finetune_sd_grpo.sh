@@ -13,4 +13,4 @@ cd ..
 mkdir images_same
 
 torchrun --nproc_per_node=8 --master_port 19001 \
-fastvideo/train_grpo_sd.py --config fastvideo/config_sd/dgx.py:hps
+fastvideo/train_grpo_sd.py --config fastvideo/config_sd/dgx.py:hpsv2

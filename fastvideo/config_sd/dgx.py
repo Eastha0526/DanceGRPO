@@ -38,7 +38,7 @@ def compressibility():
 def hps():
     config = compressibility()
     config.num_epochs = 300
-    config.reward_fn = "aesthetic_score"
+    config.reward_fn = "hpsv2"
 
     # this reward is a bit harder to optimize, so I used 2 gradient updates per epoch.
     config.train.gradient_accumulation_steps = 8
@@ -49,7 +49,24 @@ def hps():
     # this corresponds to (16 * 4) / (4 * 8) = 2 gradient updates per epoch.
     config.train.batch_size = 4
 
-    config.prompt_fn = "aes"
+    config.chosen_number = 16
+    config.num_generations = 16
+    return config
+
+def hpsv3():
+    config = compressibility()
+    config.num_epochs = 300
+    config.reward_fn = "hpsv3"
+
+    # this reward is a bit harder to optimize, so I used 2 gradient updates per epoch.
+    config.train.gradient_accumulation_steps = 8
+
+    # the DGX machine I used had 8 GPUs, so this corresponds to 8 * 16 * 4 = 512 samples per epoch.
+    config.sample.batch_size = 4
+
+    # this corresponds to (16 * 4) / (4 * 8) = 2 gradient updates per epoch.
+    config.train.batch_size = 4
+
     config.chosen_number = 16
     config.num_generations = 16
     return config
