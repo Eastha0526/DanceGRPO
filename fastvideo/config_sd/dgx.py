@@ -35,7 +35,7 @@ def compressibility():
 
     return config
 
-def hps():
+def hpsv2():
     config = compressibility()
     config.num_epochs = 300
     config.reward_fn = "hpsv2"
