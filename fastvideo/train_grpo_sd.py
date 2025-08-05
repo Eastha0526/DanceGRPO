@@ -85,52 +85,6 @@ def main(_):
     # number of timesteps within each trajectory to train on
     num_train_timesteps = int((config.sample.num_steps-1) * config.train.timestep_fraction)
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    if config.reward_fn == 'hpsv2':
-        # prepare prompt and reward fn
-        from hpsv2.src.open_clip import create_model_and_transforms, get_tokenizer
-        from typing import Union
-        import huggingface_hub
-        from hpsv2.utils import root_path, hps_version_map
-        def initialize_model():
-            model_dict = {}
-            model, preprocess_train, preprocess_val = create_model_and_transforms(
-                'ViT-H-14',
-                './hps_ckpt/open_clip_pytorch_model.bin',
-                precision='amp',
-                device=device,
-                jit=False,
-                force_quick_gelu=False,
-                force_custom_text=False,
-                force_patch_dropout=False,
-                force_image_size=None,
-                pretrained_image=False,
-                image_mean=None,
-                image_std=None,
-                light_augmentation=True,
-                aug_cfg={},
-                output_dict=True,
-                with_score_predictor=False,
-                with_region_predictor=False
-            )
-            model_dict['model'] = model
-            model_dict['preprocess_val'] = preprocess_val
-            return model_dict
-        model_dict = initialize_model()
-        model = model_dict['model']
-        preprocess_val = model_dict['preprocess_val']
-        #cp = huggingface_hub.hf_hub_download("xswu/HPSv2", hps_version_map["v2.1"])
-        cp = "./hps_ckpt/HPS_v2.1_compressed.pt"
-
-        checkpoint = torch.load(cp, map_location=f'cuda')
-        model.load_state_dict(checkpoint['state_dict'])
-        processor = get_tokenizer('ViT-H-14')
-        reward_model = model.to(device)
-        reward_model.eval()
-    elif config.reward_fn == 'hpsv3':
-        from hpsv3 import HPSv3RewardInferencer
-        reward_model = HPSv3RewardInferencer(device=device)
-
     accelerator_config = ProjectConfiguration(
         project_dir=os.path.join(config.logdir, config.run_name),
         automatic_checkpoint_naming=True,
@@ -304,6 +258,55 @@ def main(_):
         weight_decay=config.train.adam_weight_decay,
         eps=config.train.adam_epsilon,
     )
+    if config.reward_fn == 'hpsv2':
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        # prepare prompt and reward fn
+        from hpsv2.src.open_clip import create_model_and_transforms, get_tokenizer
+        from typing import Union
+        import huggingface_hub
+        from hpsv2.utils import root_path, hps_version_map
+        def initialize_model():
+            model_dict = {}
+            model, preprocess_train, preprocess_val = create_model_and_transforms(
+                'ViT-H-14',
+                './hps_ckpt/open_clip_pytorch_model.bin',
+                precision='amp',
+                device=device,
+                jit=False,
+                force_quick_gelu=False,
+                force_custom_text=False,
+                force_patch_dropout=False,
+                force_image_size=None,
+                pretrained_image=False,
+                image_mean=None,
+                image_std=None,
+                light_augmentation=True,
+                aug_cfg={},
+                output_dict=True,
+                with_score_predictor=False,
+                with_region_predictor=False
+            )
+            model_dict['model'] = model
+            model_dict['preprocess_val'] = preprocess_val
+            return model_dict
+        model_dict = initialize_model()
+        model = model_dict['model']
+        preprocess_val = model_dict['preprocess_val']
+        #cp = huggingface_hub.hf_hub_download("xswu/HPSv2", hps_version_map["v2.1"])
+        cp = "./hps_ckpt/HPS_v2.1_compressed.pt"
+
+        checkpoint = torch.load(cp, map_location=f'cuda')
+        model.load_state_dict(checkpoint['state_dict'])
+        processor = get_tokenizer('ViT-H-14')
+        reward_model = model.to(device)
+        reward_model.eval()
+
+    elif config.reward_fn == 'hpsv3':
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        from hpsv3 import HPSv3RewardInferencer
+        reward_model = HPSv3RewardInferencer(device=device)
+    
+    #prompt_fn = getattr(ddpo_pytorch.prompts, config.prompt_fn)
 
     # generate negative prompt embeddings
     neg_prompt_embed = pipeline.text_encoder(
@@ -460,17 +463,16 @@ def main(_):
                 with torch.no_grad():
                     with torch.amp.autocast('cuda'):
                         if config.reward_fn == "hpsv2":
-                                outputs = reward_model(image, text)
-                                image_features, text_features = outputs["image_features"], outputs["text_features"]
-                                logits_per_image = image_features @ text_features.T
-                                hps_score = torch.diagonal(logits_per_image)
+                            outputs = reward_model(image, text)
+                            image_features, text_features = outputs["image_features"], outputs["text_features"]
+                            logits_per_image = image_features @ text_features.T
+                            hps_score = torch.diagonal(logits_per_image)
+                            rewards.append(hps_score)
                         elif config.reward_fn == "hpsv3":
                             hps_score = reward_model.reward([image_path], [current_batch[j]])
                             if hps_score.ndim == 2:
                                 hps_score = hps_score[:,0]
-                    rewards.append(hps_score)
-
-
+                            rewards.append(hps_score)
 
             latents = torch.stack(latents, dim=1).detach()     # (4, num_steps+1, ...)
             log_probs = torch.stack(log_probs, dim=1).detach()   # (4, num_steps, ...)
@@ -730,3 +732,4 @@ def main(_):
 
 if __name__ == "__main__":
     app.run(main)
+

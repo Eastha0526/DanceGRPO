@@ -16,7 +16,6 @@ DanceGRPO has the following features:
 - __[2025.05.12]__: 🔥 We released the paper in arXiv!
 - __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion!
 - __[2025.07.03]__: 🔥 We released the training scripts of HunyuanVideo!
-- __[2025.08.06]__: 🔥 Thanks for the HPS v3 team, we have supported HPS v3 as the reward model!
 
 We have shared this work at many research labs, and the example slide can be found [here](https://github.com/XueZeyue/xuezeyue.github.io/blob/main/_talks/dancegrpo.pdf).
 
