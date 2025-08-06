@@ -91,6 +91,11 @@ def main(_):
         total_limit=config.num_checkpoint_limit,
     )
 
+    if config.reward_fn == 'hpsv3':
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        from hpsv3 import HPSv3RewardInferencer
+        reward_model = HPSv3RewardInferencer(device=device)
+    
     accelerator = Accelerator(
         log_with="wandb",
         mixed_precision=config.mixed_precision,
@@ -301,11 +306,6 @@ def main(_):
         reward_model = model.to(device)
         reward_model.eval()
 
-    elif config.reward_fn == 'hpsv3':
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        from hpsv3 import HPSv3RewardInferencer
-        reward_model = HPSv3RewardInferencer(device=device)
-    
     #prompt_fn = getattr(ddpo_pytorch.prompts, config.prompt_fn)
 
     # generate negative prompt embeddings
