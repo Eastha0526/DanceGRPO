@@ -44,7 +44,7 @@ torchrun --nproc_per_node=8 --master_port 19002 \
     --eta 0.3 \
     --lr_warmup_steps 0 \
     --sampler_seed 1223627 \
-    --max_grad_norm 1.0 \
+    --max_grad_norm 0.01 \
     --weight_decay 0.0001 \
     --use_hpsv2 \
     --num_generations 12 \
@@ -52,6 +52,8 @@ torchrun --nproc_per_node=8 --master_port 19002 \
     --use_group \
     --ignore_last \
     --timestep_fraction 0.6 \
-    --init_same_noise \
     --clip_range 1e-4 \
     --adv_clip_max 5.0 \
+    --use_ema \
+    --ema_decay 0.995 \
+    --init_same_noise \
