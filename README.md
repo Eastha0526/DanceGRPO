@@ -71,7 +71,7 @@ We give the (moving average) reward curves (also the results in **`reward.txt`**
 1. We provide more visualization examples (base, 80 iters rlhf, 160 iters rlhf) in ```"./assets/flux_visualization"```. 
 2. Here is the visualization script `"./scripts/visualization/vis_flux.py"` for FLUX. First, run `rm -rf ./data/flux/transformer/*` to clear the directory, then copy the files from a trained checkpoint (e.g., `checkpoint-160-0`) into `./data/flux/transformer`. After that, you can run the visualization. If it's trained for 160 iterations, the results are already provided in my repo.  
 3. More discussion on FLUX can be found in ```"./fastvideo/README.md"```.
-4. (Thanks for a community contribution from [@Jinfa Huang](https://infaaa.github.io/), if you change the train_batch_size and train_sp_batch_size from 1 to 2, change the gradient_accumulation_steps from 4 to 12, **you can train the FLUX with 8 H800 GPUs**, and you can finish the FLUX training within a day.)
+4. (Thanks for a community contribution from [@Jinfa Huang](https://infaaa.github.io/), if you change the train_batch_size and train_sp_batch_size from 1 to 2, change the gradient_accumulation_steps from 4 to 12, **you can train the FLUX with 8 H800 GPUs**, and you can finish the FLUX training within a day. If you experience a reward collapse similar to [this](https://github.com/XueZeyue/DanceGRPO/issues/55), please reduce the `max_grad_norm`.)
 
 
 ### Video Generation Rewards
