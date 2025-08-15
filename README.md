@@ -19,6 +19,9 @@ DanceGRPO has the following features:
 
 We have shared this work at many research labs, and the example slide can be found [here](https://github.com/XueZeyue/xuezeyue.github.io/blob/main/_talks/dancegrpo.pdf).
 
+DanceGRPO is also a project dedicated to inspiring the community. If you have any research or engineering inquiries, feel free to open issues or email us directly at xuezeyue@connect.hku.hk.
+
+
 ## Getting Started
 ### Downloading checkpoints
 You should use ```"mkdir"``` for these folders first. 
