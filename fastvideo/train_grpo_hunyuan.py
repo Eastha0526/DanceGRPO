@@ -84,10 +84,10 @@ def flux_step(
 
     if grpo:
         # log prob of prev_sample given prev_sample_mean and std_dev_t
-        log_prob = (
+        log_prob = ((
             -((prev_sample.detach().to(torch.float32) - prev_sample_mean.to(torch.float32)) ** 2) / (2 * (std_dev_t**2))
         )
-        - math.log(std_dev_t)- torch.log(torch.sqrt(2 * torch.as_tensor(math.pi)))
+        - math.log(std_dev_t)- torch.log(torch.sqrt(2 * torch.as_tensor(math.pi))))
 
         # mean along all but batch dimension
         log_prob = log_prob.mean(dim=tuple(range(1, log_prob.ndim)))
