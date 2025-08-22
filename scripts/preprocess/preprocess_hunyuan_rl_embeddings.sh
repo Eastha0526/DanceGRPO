@@ -10,5 +10,5 @@ torchrun --nproc_per_node=$GPU_NUM --master_port 19002 \
     fastvideo/data_preprocess/preprocess_hunyuan_embeddings.py \
     --model_path $MODEL_PATH \
     --output_dir $OUTPUT_DIR \
-    --prompt_dir "./video_prompts.txt" \
+    --prompt_dir "./assets/video_prompts.txt" \
     --model_type hunyuan_hf

@@ -14,7 +14,6 @@ cd HPSv2
 pip install -e . 
 cd ..
 
-pip3 install trl
 
 torchrun --nproc_per_node=8 --master_port 19002 \
     fastvideo/train_grpo_flux.py \

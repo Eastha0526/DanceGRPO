@@ -367,7 +367,7 @@ def main(_):
     assert config.sample.batch_size % config.train.batch_size == 0
     assert samples_per_epoch % total_train_batch_size == 0
 
-    dataset = PromptDataset("./prompts.txt")
+    dataset = PromptDataset("./assets/prompts.txt")
     
     
     sampler = DistributedSampler(

@@ -14,7 +14,6 @@ cd HPSv2
 pip install -e . 
 cd ..
 
-pip3 install trl
 
 ###Actually, we don't use the original pytorch torchrun in our internal environment, 
 ###so I just follow the official example of pytorch.

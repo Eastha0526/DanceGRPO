@@ -6,4 +6,4 @@ torchrun --nproc_per_node=$GPU_NUM --master_port 19002 \
     fastvideo/data_preprocess/preprocess_flux_embedding.py \
     --model_path $MODEL_PATH \
     --output_dir $OUTPUT_DIR \
-    --prompt_dir "./prompts.txt"
+    --prompt_dir "./assets/prompts.txt"
