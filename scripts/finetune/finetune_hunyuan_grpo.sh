@@ -3,12 +3,12 @@ export WANDB_BASE_URL="https://api.wandb.ai"
 export WANDB_MODE=online
 
 pip3 install moviepy
-pip3 install protobuf==3.20.0
 mkdir videos
 pip3 install huggingface_hub==0.24.0 
-pip3 install tf-keras
-pip3 install trl
-pip3 install transformers==4.51.0
+pip3 install tf-keras==2.19.0
+pip3 install trl==0.16.0
+pip3 install transformers==4.46.1
+pip3 install protobuf==5.29.5
 
 ###Actually, we don't use the original pytorch torchrun in our internal environment, 
 ###so I just follow the official example of pytorch.
