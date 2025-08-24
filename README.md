@@ -14,7 +14,7 @@ DanceGRPO has the following features:
 ## Updates
 
 - __[2025.05.12]__: 🔥 We released the paper in arXiv!
-- __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion!
+- __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion! [[FLUX checkpoints]](https://huggingface.co/xzyhku/flux_hpsv2.1_dancegrpo)
 - __[2025.07.03]__: 🔥 We released the training scripts of HunyuanVideo!
 
 We have shared this work at many research labs, and the example slide can be found [here](https://github.com/XueZeyue/xuezeyue.github.io/blob/main/_talks/dancegrpo.pdf).
@@ -54,7 +54,7 @@ bash scripts/preprocess/preprocess_flux_rl_embeddings.sh
 bash scripts/finetune/finetune_flux_grpo.sh   
 ```
 
-For image generation open-source version, we use the prompts in [HPD](https://huggingface.co/datasets/ymhao/HPDv2/tree/main) dataset for training, as shown in ```"./prompts.txt"```.
+For image generation open-source version, we use the prompts in [HPD](https://huggingface.co/datasets/ymhao/HPDv2/tree/main) dataset for training, as shown in ```"./assets/prompts.txt"```.
 
 ```bash
 # for HunyuanVideo, preprocessing with 8 H800 GPUs
@@ -63,7 +63,7 @@ bash scripts/preprocess/preprocess_hunyuan_rl_embeddings.sh
 bash scripts/finetune/finetune_hunyuan_grpo.sh   
 ```
 
-For the video generation open-source version, we filter the prompts from [VidProM](https://huggingface.co/datasets/WenhaoWang/VidProM) dataset for training, as shown in ```"./video_prompts.txt"```.
+For the video generation open-source version, we filter the prompts from [VidProM](https://huggingface.co/datasets/WenhaoWang/VidProM) dataset for training, as shown in ```"./assets/video_prompts.txt"```.
 
 ### Image Generation Rewards
 We give the (moving average) reward curves (also the results in **`reward.txt`** or **`hps_reward.txt`**) of Stable Diffusion (left or upper) and FLUX (right or lower). We can complete the FLUX training (200 iterations) within **12 hours** with 16 H800 GPUs.
