@@ -10,12 +10,14 @@ DanceGRPO has the following features:
 - Support Stable Diffusion
 - Support FLUX
 - Support HunyuanVideo
+- Support SkyReels-I2V
 
 ## Updates
 
 - __[2025.05.12]__: 🔥 We released the paper in arXiv!
 - __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion! [[FLUX checkpoints]](https://huggingface.co/xzyhku/flux_hpsv2.1_dancegrpo)
 - __[2025.07.03]__: 🔥 We released the training scripts of HunyuanVideo!
+- __[2025.08.30]__: 🔥 We released the training scripts of SkyReels-I2V!
 
 We have shared this work at many research labs, and the example slide can be found [here](https://github.com/XueZeyue/xuezeyue.github.io/blob/main/_talks/dancegrpo.pdf).
 
@@ -34,8 +36,9 @@ For image generation,
 
 For video generation,
 1. Download the HunyuanVideo checkpoints from [here](https://huggingface.co/hunyuanvideo-community/HunyuanVideo) to ```"./data/HunyuanVideo"```.
-2. Download the Qwen2-VL-2B-Instruct checkpoints from [here](https://huggingface.co/Qwen/Qwen2-VL-2B-Instruct) to ```"./Qwen2-VL-2B-Instruct"```.
-3. Download the VideoAlign checkpoints from [here](https://huggingface.co/KwaiVGI/VideoReward) to ```"./videoalign_ckpt"```.
+2. Download the SkyReels-I2V checkpoints from [here](https://huggingface.co/xzyhku/SkyReels-V1-I2V) to ```"./data/SkyReels-I2V"```.
+3. Download the Qwen2-VL-2B-Instruct checkpoints from [here](https://huggingface.co/Qwen/Qwen2-VL-2B-Instruct) to ```"./Qwen2-VL-2B-Instruct"```.
+4. Download the VideoAlign checkpoints from [here](https://huggingface.co/KwaiVGI/VideoReward) to ```"./videoalign_ckpt"```.
 
 ### Installation
 ```bash
@@ -59,11 +62,21 @@ For image generation open-source version, we use the prompts in [HPD](https://hu
 ```bash
 # for HunyuanVideo, preprocessing with 8 H800 GPUs
 bash scripts/preprocess/preprocess_hunyuan_rl_embeddings.sh
-# for HunyuanVideo, using the following script for training with 16/32 H800 GPUs
+# for HunyuanVideo, using the following script for training with 16/32 H800 GPUs,
 bash scripts/finetune/finetune_hunyuan_grpo.sh   
 ```
 
-For the video generation open-source version, we filter the prompts from [VidProM](https://huggingface.co/datasets/WenhaoWang/VidProM) dataset for training, as shown in ```"./assets/video_prompts.txt"```.
+For the text-to-video generation open-source version, we filter the prompts from [VidProM](https://huggingface.co/datasets/BestWishYsh/ConsisID-preview-Data) dataset for training, as shown in ```"./assets/video_prompts.txt"```.
+
+```bash
+# for SkyReels-I2V, preprocessing with 8 H800 GPUs
+bash scripts/preprocess/preprocess_skyreels_rl_embeddings.sh
+# for SkyReels-I2V, using the following script for training with 32 H800 GPUs
+# we use FLUX to generate the reference image, please download FLUX checkpoints to "./data/flux"
+bash scripts/finetune/finetune_skyreels_i2v.sh   
+```
+
+For the image-to-video generation open-source version, we filter the prompts from [ConsistID](https://huggingface.co/datasets/BestWishYsh/ConsisID-preview-Data) dataset for training, as shown in ```"./assets/consist-id.txt"```.
 
 ### Image Generation Rewards
 We give the (moving average) reward curves (also the results in **`reward.txt`** or **`hps_reward.txt`**) of Stable Diffusion (left or upper) and FLUX (right or lower). We can complete the FLUX training (200 iterations) within **12 hours** with 16 H800 GPUs.
@@ -93,11 +106,16 @@ With 32 H800 GPUs,
 3. Although training with 16 H800 GPUs has similar rewards with 32 H800 GPUs, I still find that 32 H800 GPUs leads to better visulization results.
 4. We plot the rewards by **de-normalizing**, with the formula VQ = VQ * 2.2476 + 3.6757 by following [here](https://huggingface.co/KwaiVGI/VideoReward/blob/main/model_config.json).
 
+For SkyReels-I2V,
+
+<img src=assets/rewards/opensource_i2v.png width="49%">
+
+1. We plot the rewards by **de-normalizing**, with the formula MQ = MQ * 1.3811 + 1.1646 by following [here](https://huggingface.co/KwaiVGI/VideoReward/blob/main/model_config.json).
 
 ### Multi-reward Training
 The Multi-reward training code and reward curves can be found [here](https://github.com/XueZeyue/DanceGRPO/issues/19).
 
-### Important Discussion and Results with More Reward Models
+### Important Discussion and Results with More Reward Models for FLUX
 Thanks for the issue from [@Yi-Xuan XU](https://github.com/xuyxu), the results of more reward models and better visualization (how to avoid grid patterns) on FLUX can be found [here](https://github.com/XueZeyue/DanceGRPO/issues/36). We also support the pickscore for FLUX with `--use_pickscore`.
 
 We support the EMA for FLUX with `--ema_decay 0.995` and `--use_ema`. Enabling EMA helps with better visualization.
