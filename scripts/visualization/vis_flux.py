@@ -39,7 +39,7 @@ def main():
         use_safetensors=True
     ).to("cuda")
     
-    dataset = PromptDataset("prompts.txt")
+    dataset = PromptDataset("./assets/prompts.txt")
     sampler = DistributedSampler(
         dataset,
         num_replicas=world_size,
