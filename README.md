@@ -54,6 +54,7 @@ bash scripts/finetune/finetune_sd_grpo.sh
 bash scripts/preprocess/preprocess_flux_rl_embeddings.sh
 # for FLUX, training with 16 H800 GPUs for better convergence,
 # or you can use finetune_flux_grpo_8gpus.sh with 8 H800 GPUs, but with relatively slower convergence
+# or you can try the LoRA version, which takes ~20GB VRAM per GPU with one node (8 GPUs).
 bash scripts/finetune/finetune_flux_grpo.sh   
 ```
 
