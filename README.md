@@ -15,11 +15,11 @@ DanceGRPO has the following features:
 ## Updates
 
 - __[2025.05.12]__: 🔥 We released the paper in arXiv!
-- __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion! [[FLUX checkpoints]](https://huggingface.co/xzyhku/flux_hpsv2.1_dancegrpo)
+- __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion! 
 - __[2025.07.03]__: 🔥 We released the training scripts of HunyuanVideo!
 - __[2025.08.30]__: 🔥 We released the training scripts of SkyReels-I2V!
 
-We have shared this work at many research labs, and the example slide can be found [here](https://github.com/XueZeyue/xuezeyue.github.io/blob/main/_talks/dancegrpo.pdf).
+We have shared this work at many research labs, and the example slide can be found [here](https://github.com/XueZeyue/xuezeyue.github.io/blob/main/_talks/dancegrpo.pdf). The trained FLUX checkpoints can be found [here](https://huggingface.co/xzyhku/flux_hpsv2.1_dancegrpo).
 
 DanceGRPO is also a project dedicated to inspiring the community. If you have any research or engineering inquiries, feel free to open issues or email us directly at xuezeyue@connect.hku.hk.
 
