@@ -11,6 +11,7 @@ DanceGRPO has the following features:
 - Support FLUX
 - Support HunyuanVideo
 - Support SkyReels-I2V
+- Support Qwen-Image
 
 ## Updates
 
@@ -18,6 +19,7 @@ DanceGRPO has the following features:
 - __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion! 
 - __[2025.07.03]__: 🔥 We released the training scripts of HunyuanVideo!
 - __[2025.08.30]__: 🔥 We released the training scripts of SkyReels-I2V!
+- __[2025.09.04]__: 🔥 We released the training scripts of Qwen-Image!
 
 We have shared this work at many research labs, and the example slide can be found [here](https://github.com/XueZeyue/xuezeyue.github.io/blob/main/_talks/dancegrpo.pdf). The trained FLUX checkpoints can be found [here](https://huggingface.co/xzyhku/flux_hpsv2.1_dancegrpo).
 
@@ -78,6 +80,17 @@ bash scripts/finetune/finetune_skyreels_i2v.sh
 ```
 
 For the image-to-video generation open-source version, we filter the prompts from [ConsistID](https://huggingface.co/datasets/BestWishYsh/ConsisID-preview-Data) dataset for training, as shown in ```"./assets/consist-id.txt"```.
+
+<details>
+<summary><strong>About Qwen-Image</strong></summary>
+
+```bash
+# for Qwen-Image, preprocessing with 8 H800 GPUs
+bash scripts/preprocess/preprocess_qwen_image_rl_embeddings.sh
+# for Qwen-Image, using the following script for training with 8 H800 GPUs,
+bash scripts/finetune/finetune_qwenimage_grpo.sh   
+```
+</details>
 
 ### Image Generation Rewards
 We give the (moving average) reward curves (also the results in **`reward.txt`** or **`hps_reward.txt`**) of Stable Diffusion (left or upper) and FLUX (right or lower). We can complete the FLUX training (200 iterations) within **12 hours** with 16 H800 GPUs.
