@@ -84,7 +84,7 @@ For the image-to-video generation open-source version, we filter the prompts fro
 <details>
 <summary><strong>About Qwen-Image</strong></summary>
 
-Download the Qwen-Image [checkpoints](https://huggingface.co/Qwen/Qwen-Image/tree/main) to  ```"./data/qwenimage"```.
+Download the Qwen-Image [checkpoints](https://huggingface.co/Qwen/Qwen-Image/tree/main) to  ```"./data/qwenimage"```. We also use HPS-v2.1 to train the model.
 
 ```bash
 # for Qwen-Image, preprocessing with 8 H800 GPUs
