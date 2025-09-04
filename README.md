@@ -84,6 +84,8 @@ For the image-to-video generation open-source version, we filter the prompts fro
 <details>
 <summary><strong>About Qwen-Image</strong></summary>
 
+Download the Qwen-Image [checkpoints](https://huggingface.co/Qwen/Qwen-Image/tree/main) to  ```"./data/qwenimage"```.
+
 ```bash
 # for Qwen-Image, preprocessing with 8 H800 GPUs
 bash scripts/preprocess/preprocess_qwen_image_rl_embeddings.sh
