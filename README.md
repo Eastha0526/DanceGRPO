@@ -12,6 +12,7 @@ DanceGRPO has the following features:
 - Support HunyuanVideo
 - Support SkyReels-I2V
 - Support Qwen-Image
+- Support Qwen-Image-Edit
 
 ## Updates
 
@@ -19,7 +20,7 @@ DanceGRPO has the following features:
 - __[2025.05.28]__: 🔥 We released the training scripts of FLUX and Stable Diffusion! 
 - __[2025.07.03]__: 🔥 We released the training scripts of HunyuanVideo!
 - __[2025.08.30]__: 🔥 We released the training scripts of SkyReels-I2V!
-- __[2025.09.04]__: 🔥 We released the training scripts of Qwen-Image!
+- __[2025.09.04]__: 🔥 We released the training scripts of Qwen-Image&Qwen-Image-Edit!
 
 We have shared this work at many research labs, and the example slide can be found [here](https://github.com/XueZeyue/xuezeyue.github.io/blob/main/_talks/dancegrpo.pdf). The trained FLUX checkpoints can be found [here](https://huggingface.co/xzyhku/flux_hpsv2.1_dancegrpo).
 
@@ -81,16 +82,34 @@ bash scripts/finetune/finetune_skyreels_i2v.sh
 
 For the image-to-video generation open-source version, we filter the prompts from [ConsistID](https://huggingface.co/datasets/BestWishYsh/ConsisID-preview-Data) dataset for training, as shown in ```"./assets/consist-id.txt"```.
 
+
 <details>
 <summary><strong>About Qwen-Image</strong></summary>
 
-Download the Qwen-Image [checkpoints](https://huggingface.co/Qwen/Qwen-Image/tree/main) to  ```"./data/qwenimage"```. We also use HPS-v2.1 to train the model.
+Download the Qwen-Image [checkpoints](https://huggingface.co/Qwen/Qwen-Image/tree/main) to  ```"./data/qwenimage"```. We also use HPS-v2.1 to train the model. The reward increases from ~0.25 to ~0.33 with 200 iterations.
 
 ```bash
 # for Qwen-Image, preprocessing with 8 H800 GPUs
 bash scripts/preprocess/preprocess_qwen_image_rl_embeddings.sh
 # for Qwen-Image, using the following script for training with 8 H800 GPUs,
 bash scripts/finetune/finetune_qwenimage_grpo.sh   
+```
+</details>
+
+<details>
+<summary><strong>About Qwen-Image-Edit</strong></summary>
+
+Download the Qwen-Image-Edit [checkpoints](https://huggingface.co/Qwen/Qwen-Image-Edit) to  ```"./data/qwenimage_edit"```. 
+
+Since there are no specific image edit open-source reward models for Qwen-Image-Edit, we still can use HPS-v2.1, and this implementation just serves as a reference.
+
+Download this [dataset](https://huggingface.co/datasets/AILab-CVC/SEED-Data-Edit-Part2-3) to ```"./data/SEED-Data-Edit-Part2-3"```, and ```cd ./data/SEED-Data-Edit-Part2-3/real_editing/images ```, then run ``` tar -xzf images.tar.gz ```.
+
+```bash
+# for Qwen-Image, preprocessing with 8 H800 GPUs
+bash scripts/preprocess/preprocess_qwen_image_edit_rl_embeddings.sh
+# for Qwen-Image, using the following script for training with 8 H800 GPUs,
+bash scripts/finetune/finetune_qwenimage_edit_grpo.sh   
 ```
 </details>
 
