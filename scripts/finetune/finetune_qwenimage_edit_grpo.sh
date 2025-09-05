@@ -35,8 +35,8 @@ torchrun --nproc_per_node=8 --master_port 19002 \
     --allow_tf32 \
     --cfg 0.0 \
     --output_dir data/outputs/grpo \
-    --h 720 \
-    --w 720 \
+    --h 512 \
+    --w 512 \
     --t 1 \
     --sampling_steps 20 \
     --eta 0.3 \
