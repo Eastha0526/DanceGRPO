@@ -105,6 +105,8 @@ Since there are no specific image edit open-source reward models for Qwen-Image-
 
 Download this [dataset](https://huggingface.co/datasets/AILab-CVC/SEED-Data-Edit-Part2-3) to ```"./data/SEED-Data-Edit-Part2-3"```, and ```cd ./data/SEED-Data-Edit-Part2-3/real_editing/images ```, then run ``` tar -xzf images.tar.gz ```.
 
+The HPS-v2.1 reward will increase from ~0.23 to ~0.27 with about 150 iterations.
+
 ```bash
 # for Qwen-Image-Edit, preprocessing with 8 H800 GPUs
 bash scripts/preprocess/preprocess_qwen_image_edit_rl_embeddings.sh
