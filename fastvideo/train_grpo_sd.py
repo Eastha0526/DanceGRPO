@@ -108,7 +108,7 @@ def main(_):
     )
     if accelerator.is_main_process:
         accelerator.init_trackers(
-            project_name="ddpo-pytorch",
+            project_name="grpo-sd",
             config=config.to_dict(),
             init_kwargs={"wandb": {"name": config.run_name}},
         )
