@@ -157,6 +157,8 @@ Thanks for the issue from [@Yi-Xuan XU](https://github.com/xuyxu), the results o
 
 We support the EMA for FLUX with `--ema_decay 0.995` and `--use_ema`. Enabling EMA helps with better visualization.
 
+[Pref-GRPO](https://arxiv.org/pdf/2508.20751) also discusses how to avoid reward hacking. [FlowCPS](https://arxiv.org/abs/2509.05952) provides a better SDE for RLHF training.
+
 ## How to Support Custom Models
 1. For preprocessing, modify the `preprocess_flux_embedding.py` and `latent_flux_rl_datasets.py` based on your text encoder.
 2. For FSDP and dataloader, modify the `fsdp_util.py` and `communications_flux.py`, we prefer FSDP rather than DeepSpeed since FSDP is easier to debug.
@@ -172,7 +174,7 @@ How to debug:
 
 ## Training Acceleration
 1. You can reduce the sampling steps, resolution, or timestep selection ratio.
-2. Thanks for the outstanding follow-up work [MixGRPO](https://arxiv.org/abs/2507.21802), please refer to [here](https://github.com/Tencent-Hunyuan/MixGRPO).
+2. The outstanding follow-up works such as [MixGRPO](https://arxiv.org/abs/2507.21802) and [BranchGRPO](https://arxiv.org/abs/2509.06040) are also working on training acceleration.
 
 
 ## Acknowledgement
