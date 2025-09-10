@@ -6,15 +6,15 @@ export WANDB_MODE=online
 mkdir images
 
 
-sudo apt-get update
-yes | sudo apt-get install python3-tk
+# sudo apt-get update
+# yes | sudo apt-get install python3-tk
 
-git clone https://github.com/tgxs002/HPSv2.git
-cd HPSv2
-pip install -e . 
-cd ..
+# git clone https://github.com/tgxs002/HPSv2.git
+# cd HPSv2
+# pip install -e . 
+# cd ..
 
-torchrun --nproc_per_node=8 --master_port 19002 \
+torchrun --nproc_per_node=1 --master_port 19002 \
     fastvideo/train_grpo_qwenimage.py \
     --seed 42 \
     --pretrained_model_name_or_path data/qwenimage \
@@ -22,22 +22,24 @@ torchrun --nproc_per_node=8 --master_port 19002 \
     --cache_dir data/.cache \
     --data_json_path data/rl_embeddings/videos2caption.json \
     --gradient_checkpointing \
-    --train_batch_size 2 \
+    --train_batch_size 1 \
     --num_latent_t 1 \
     --sp_size 1 \
-    --train_sp_batch_size 2 \
+    --train_sp_batch_size 1 \
     --dataloader_num_workers 4 \
-    --gradient_accumulation_steps 12 \
+    --gradient_accumulation_steps 1 \
     --max_train_steps 300 \
     --learning_rate 1e-5 \
     --mixed_precision bf16 \
-    --checkpointing_steps 60 \
+    --checkpointing_steps 10 \
     --allow_tf32 \
     --cfg 0.0 \
+    --use_cpu_offload \
     --output_dir data/outputs/grpo \
     --h 720 \
     --w 720 \
     --t 1 \
+    --master_weight_type bf16 \
     --sampling_steps 20 \
     --eta 0.3 \
     --lr_warmup_steps 0 \
@@ -45,7 +47,7 @@ torchrun --nproc_per_node=8 --master_port 19002 \
     --max_grad_norm 1.0 \
     --weight_decay 0.0001 \
     --use_hpsv2 \
-    --num_generations 12 \
+    --num_generations 6 \
     --shift 3 \
     --use_group \
     --ignore_last \
