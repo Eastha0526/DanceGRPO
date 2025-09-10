@@ -61,6 +61,9 @@ from fastvideo.utils.fsdp_util_qwenimage import fsdp_wrapper, FSDPConfig
 from contextlib import contextmanager
 from safetensors.torch import save_file
 import copy
+from safetensors import safe_open
+import bitsandbytes as bnb
+
 
 class FSDP_EMA:
     def __init__(self, model, decay, rank):
@@ -124,6 +127,30 @@ def save_ema_checkpoint(ema_handler, rank, output_dir, step, epoch, config_dict)
         #torch.save(ema_handler.ema_state_dict_rank0, os.path.join(ema_checkpoint_path, "ema_model.pt"))
         main_print(f"--> EMA checkpoint saved at {ema_checkpoint_path}")
 
+
+def load_state_dict(file_path, torch_dtype=torch.bfloat16, device="cpu"):
+    if file_path.endswith(".safetensors"):
+        return load_state_dict_from_safetensors(file_path, torch_dtype=torch_dtype, device=device)
+    else:
+        return load_state_dict_from_bin(file_path, torch_dtype=torch.bfloat16, device=device)
+
+def load_state_dict_from_safetensors(file_path, torch_dtype=torch.bfloat16, device="cpu"):
+    state_dict = {}
+    with safe_open(file_path, framework="pt", device=str(device)) as f:
+        for k in f.keys():
+            state_dict[k] = f.get_tensor(k)
+            if torch_dtype is not None:
+                state_dict[k] = state_dict[k].to(torch_dtype)
+    return state_dict
+
+
+def load_state_dict_from_bin(file_path, torch_dtype=None, device="cpu"):
+    state_dict = torch.load(file_path, map_location=device, weights_only=True)
+    if torch_dtype is not None:
+        for i in state_dict:
+            if isinstance(state_dict[i], torch.Tensor):
+                state_dict[i] = state_dict[i].to(torch_dtype)
+    return state_dict
 
 def sd3_time_shift(shift, t):
     return (shift * t) / (1 + (shift - 1) * t)
@@ -693,14 +720,15 @@ def main(args):
     main_print(f"--> loading model from {args.pretrained_model_name_or_path}")
     # keep the master weight to float32
     
-
+    # TODO Apply .safetensors
     from diffusers.models.transformers.transformer_qwenimage import QwenImageTransformer2DModel, QwenImageTransformerBlock
     transformer = QwenImageTransformer2DModel.from_pretrained(
             args.pretrained_model_name_or_path,
             subfolder="transformer",
-            torch_dtype = torch.float32
+            torch_dtype = torch.bfloat16
     )
-
+    state_dict = load_state_dict(args.safetensors_path)
+    transformer.load_state_dict(state_dict)
     # Setup FSDP configuration
     fsdp_config = FSDPConfig(
         sharding_strategy="FULL_SHARD",
@@ -720,7 +748,7 @@ def main(args):
     apply_fsdp_checkpointing(
             transformer, (QwenImageTransformerBlock), args.selective_checkpointing
         )
-
+    print("Load Transformers block")
     from diffusers.models.autoencoders import AutoencoderKLQwenImage
     vae = AutoencoderKLQwenImage.from_pretrained(
         args.pretrained_model_name_or_path,
@@ -742,13 +770,15 @@ def main(args):
     params_to_optimize = transformer.parameters()
     params_to_optimize = list(filter(lambda p: p.requires_grad, params_to_optimize))
 
-    optimizer = torch.optim.AdamW(
-        params_to_optimize,
-        lr=args.learning_rate,
-        betas=(0.9, 0.999),
-        weight_decay=args.weight_decay,
-        eps=1e-8,
-    )
+    # optimizer = torch.optim.AdamW(
+    #     params_to_optimize,
+    #     lr=args.learning_rate,
+    #     betas=(0.9, 0.999),
+    #     weight_decay=args.weight_decay,
+    #     eps=1e-8,
+    # )
+    # TO set 8bit optimizer
+    optimizer = bnb.optim.Adam8bit(params_to_optimize, lr=args.learning_rate, weight_decay=args.weight_decay)
 
     init_steps = 0
     main_print(f"optimizer: {optimizer}")
@@ -1187,8 +1217,11 @@ if __name__ == "__main__":
         action="store_true", 
         help="Enable Exponential Moving Average of model weights."
     )
-    
-
+    parser.add_argument(
+        "--safetensors_path",
+        default="/workspace/DanceGRPO/qwen_image_toonstyle_lr_1e-5_cosine_annealing_gradient_accumulation_16_weight_decay_0.05_step-60000.safetensors",
+        help="load safetensors"
+    )
 
 
 
